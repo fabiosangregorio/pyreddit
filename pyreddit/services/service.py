@@ -6,8 +6,8 @@ import requests
 from requests import Response
 import icontract
 
-from pyreddit.models.media import Media
-from pyreddit.exceptions import MediaRetrievalError
+from ..models.media import Media
+from ..exceptions import MediaRetrievalError
 
 
 class Service(icontract.DBC):
@@ -62,7 +62,9 @@ class Service(icontract.DBC):
     """
 
     @classmethod
-    @icontract.require(lambda cls, url, data: url is not None, "url must not be None")
+    @icontract.require(
+        lambda cls, url, data: url is not None, "url must not be None"
+    )
     @icontract.ensure(lambda result: result is not None)
     def preprocess(cls, url: str, data: Any) -> str:
         """
@@ -152,7 +154,9 @@ class Service(icontract.DBC):
         """
 
     @classmethod
-    @icontract.require(lambda cls, url, data: url is not None, "url must not be None")
+    @icontract.require(
+        lambda cls, url, data: url is not None, "url must not be None"
+    )
     @icontract.ensure(lambda result: result is not None)
     def get_media(cls, url: str, data: Any) -> Media:
         """

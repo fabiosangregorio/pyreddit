@@ -70,3 +70,6 @@ documentation-reports
 html
 .mutmut-cache
 .metadata
+.env*
+!.env.template
+pythonenv*

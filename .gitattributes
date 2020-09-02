@@ -1,3 +1,0 @@
-secret_dev.py filter=git-crypt diff=git-crypt 
-secret_github.py filter=git-crypt diff=git-crypt 
-secret_prod.py filter=git-crypt diff=git-crypt 

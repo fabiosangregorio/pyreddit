@@ -2,10 +2,10 @@
 from typing import Any, Optional
 import requests
 
-import pyreddit.helpers as helpers
-from pyreddit.services.service import Service
-from pyreddit.models.media import Media
-from pyreddit.models.content_type import ContentType
+from .. import helpers
+from .service import Service
+from ..models.media import Media
+from ..models.content_type import ContentType
 
 
 class Vreddit(Service):
@@ -35,7 +35,9 @@ class Vreddit(Service):
                 data, ["media", "reddit_video", "fallback_url"]
             )
 
-        processed_url: str = fallback_url if fallback_url else f"{url}/DASH_1_2_M"
+        processed_url: str = (
+            fallback_url if fallback_url else f"{url}/DASH_1_2_M"
+        )
         if requests.head(processed_url).status_code >= 300:
             processed_url = f"{url}/DASH_1080"
         return processed_url

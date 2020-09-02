@@ -1,10 +1,10 @@
 """Service for Youtube URLs."""
 from typing import Optional, Any
 
-from pyreddit.services.service import Service
-from pyreddit.models.media import Media
-from pyreddit.models.content_type import ContentType
-import pyreddit.helpers as helpers
+from .service import Service
+from ..models.media import Media
+from ..models.content_type import ContentType
+from .. import helpers
 
 
 class Youtube(Service):

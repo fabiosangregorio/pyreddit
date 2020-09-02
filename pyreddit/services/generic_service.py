@@ -1,9 +1,9 @@
 """Service for when a suitable specific service is not found."""
 from typing import Optional
 
-from pyreddit.services.service import Service
-from pyreddit.models.media import Media
-from pyreddit.models.content_type import ContentType
+from .service import Service
+from ..models.media import Media
+from ..models.content_type import ContentType
 
 
 class Generic(Service):

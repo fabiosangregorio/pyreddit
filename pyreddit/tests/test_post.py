@@ -5,8 +5,13 @@ from pyreddit.models.post import Post
 from pyreddit.models.media import Media
 from pyreddit.models.content_type import ContentType
 
+from .tests_initializer import init_tests
+
 
 class TestPost(unittest.TestCase):
+    def setUp(self):
+        init_tests()
+
     def test_get_msg(self):
         post = Post("r/subreddit", "https://permalink", "title", "text")
         msg = post.get_msg()
@@ -18,8 +23,12 @@ class TestPost(unittest.TestCase):
 
     @parameterized.expand(
         [
-            param(media=Media("", ContentType.VIDEO), expected=ContentType.VIDEO),
-            param(media=Media("", ContentType.PHOTO), expected=ContentType.PHOTO),
+            param(
+                media=Media("", ContentType.VIDEO), expected=ContentType.VIDEO
+            ),
+            param(
+                media=Media("", ContentType.PHOTO), expected=ContentType.PHOTO
+            ),
             param(
                 media=Media("", ContentType.YOUTUBE),
                 expected=ContentType.YOUTUBE,

@@ -2,18 +2,17 @@
 
 from typing import List, Optional, Any
 import re
+import os
 import requests
 from requests import Response
 from requests.exceptions import RequestException
 import icontract
 
-from pyreddit.config.config import MAX_TITLE_LENGTH, secret
-import telegram
+from .config import config
 
 
 @icontract.require(
-    lambda subreddit: subreddit is not None and len(subreddit) > 0,
-    "subreddit must not be None",
+    lambda subreddit: subreddit is not None and len(subreddit) > 0
 )
 @icontract.ensure(lambda result, subreddit: subreddit in result)
 def get_random_post_url(subreddit: str) -> str:
@@ -34,10 +33,7 @@ def get_random_post_url(subreddit: str) -> str:
     return f"https://www.reddit.com/{subreddit}/random"
 
 
-@icontract.require(
-    lambda text: text is not None and len(text) > 0,
-    "text must not be None",
-)
+@icontract.require(lambda text: text is not None and len(text) > 0)
 def get_subreddit_names(text: str) -> List[str]:
     """
     Return a list of the ("r/" prefixed) subreddit names present in the text.
@@ -63,10 +59,7 @@ def get_subreddit_names(text: str) -> List[str]:
     return re.findall(regex, text, re.MULTILINE)
 
 
-@icontract.require(
-    lambda text, reverse: text is not None and len(text) > 0,
-    "text must not be None",
-)
+@icontract.require(lambda text, reverse: text is not None and len(text) > 0)
 def get_subreddit_name(text: str, reverse: bool = False) -> Optional[str]:
     """
     Return the first (or last) ("r/" prefixed) subreddit name in the given text.
@@ -93,41 +86,39 @@ def get_subreddit_name(text: str, reverse: bool = False) -> Optional[str]:
     return None
 
 
-@icontract.require(
-    lambda text: text is not None,
-    "text must not be None",
-)
-def escape_markdown(text: str) -> str:
+@icontract.require(lambda text: text is not None)
+def escape_markdown(text: str, version=2, entity_type=None) -> str:
     """
-    Return the given text with escaped common markdown characters.
+    Escape markup symbols.
 
-    .. seealso::
-        Official Telegram supported Markdown documentation:
-        https://core.telegram.org/bots/api#Markdown-style
-
-    Parameters
-    ----------
-    text : str
-        Unescaped text to escape.
-
-    Returns
-    -------
-    str
-        New string containing the escaped text.
+    Args:
+    ----
+        text (:obj:`str`): The text.
+        version (:obj:`int` | :obj:`str`): Use to specify the version of telegrams Markdown.
+            Either ``1`` or ``2``. Defaults to ``1``.
+        entity_type (:obj:`str`, optional): For the entity types ``PRE``, ``CODE`` and the link
+            part of ``TEXT_LINKS``, only certain characters need to be escaped in ``MarkdownV2``.
+            See the official API documentation for details. Only valid in combination with
+            ``version=2``, will be ignored else.
 
     """
-    return telegram.utils.helpers.escape_markdown(text, version=2)
+    if int(version) == 1:
+        escape_chars = r"_*`["
+    elif int(version) == 2:
+        if entity_type == "pre" or entity_type == "code":
+            escape_chars = r"\`"
+        elif entity_type == "text_link":
+            escape_chars = r"\)"
+        else:
+            escape_chars = r"_*[]()~`>#+-=|{}.!"
+    else:
+        raise ValueError("Markdown version must be either 1 or 2!")
+
+    return re.sub("([{}])".format(re.escape(escape_chars)), r"\\\1", text)
 
 
-@icontract.require(
-    lambda text, length: text is not None,
-    "text must not be None",
-)
-@icontract.require(
-    lambda text, length: length > 0,
-    "length must not be <= 0",
-)
-def truncate_text(text: str, length: int = MAX_TITLE_LENGTH) -> str:
+@icontract.require(lambda text, length: text is not None and length > 0)
+def truncate_text(text: str, length: int = config.MAX_TITLE_LENGTH) -> str:
     """
     Return the given text, truncated at `length` characters, plus ellipsis.
 
@@ -151,10 +142,7 @@ def truncate_text(text: str, length: int = MAX_TITLE_LENGTH) -> str:
     return text[:length] + (text[length:] and "...")
 
 
-@icontract.require(
-    lambda text: text is not None and len(text) > 0,
-    "text must not be None",
-)
+@icontract.require(lambda text: text is not None and len(text) > 0)
 def polish_text(text: str) -> str:
     """
     Return the given text without newline characters.
@@ -173,10 +161,29 @@ def polish_text(text: str) -> str:
     return text.replace("\n", " ")
 
 
-@icontract.require(
-    lambda text: text is not None and len(text) > 0,
-    "text must not be None",
-)
+def prefix_reddit_url(url: str) -> str:
+    """
+    Return the url with reddit's base url as a prefix.
+
+    Parameters
+    ----------
+    url : str
+        Url to prefix
+
+    Returns
+    -------
+    str
+        New string containing the prefixed url
+
+    """
+    if url.startswith("http"):
+        return url
+    if url[0] != "/":
+        url = "/" + url
+    return f"https://www.reddit.com{url}"
+
+
+@icontract.require(lambda text: text is not None and len(text) > 0)
 def get_urls_from_text(text: str) -> List[str]:
     """
     Return a list of the reddit urls present in the given text.
@@ -206,7 +213,7 @@ def get_urls_from_text(text: str) -> List[str]:
             try:
                 resp: Response = requests.get(
                     word,
-                    headers={"User-agent": secret.REDDIT_USER_AGENT},
+                    headers={"User-agent": os.getenv("REDDIT_USER_AGENT")},  # type: ignore
                     allow_redirects=False,
                 )
                 start = resp.text.find("https://")
@@ -218,8 +225,12 @@ def get_urls_from_text(text: str) -> List[str]:
     return urls
 
 
-@icontract.require(lambda obj, attr, default: obj is not None, "obj must not be None")
-@icontract.require(lambda obj, attr, default: attr is not None, "attr must not be None")
+@icontract.require(
+    lambda obj, attr, default: obj is not None, "obj must not be None"
+)
+@icontract.require(
+    lambda obj, attr, default: attr is not None, "attr must not be None"
+)
 def get(obj: Any, attr: str, default: Any = None) -> Any:
     """
     Return the value of `attr` if it exists and is not None, default otherwise.
@@ -248,7 +259,9 @@ def get(obj: Any, attr: str, default: Any = None) -> Any:
     return obj[attr] if attr in obj and obj[attr] is not None else default
 
 
-@icontract.require(lambda obj, attrs, default: obj is not None, "obj must not be None")
+@icontract.require(
+    lambda obj, attrs, default: obj is not None, "obj must not be None"
+)
 @icontract.require(
     lambda obj, attrs, default: attrs is not None and len(attrs) > 0,
     "attrs must not be None",

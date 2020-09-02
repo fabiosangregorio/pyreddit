@@ -5,12 +5,12 @@ from urllib.parse import urlparse
 from typing import Any
 import icontract
 
-from pyreddit.services.gfycat_service import Gfycat
-from pyreddit.services.vreddit_service import Vreddit
-from pyreddit.services.imgur_service import Imgur
-from pyreddit.services.youtube_service import Youtube
-from pyreddit.services.generic_service import Generic
-from pyreddit.models.media import Media
+from .gfycat_service import Gfycat
+from .vreddit_service import Vreddit
+from .imgur_service import Imgur
+from .youtube_service import Youtube
+from .generic_service import Generic
+from ..models.media import Media
 
 
 class ServicesWrapper:
@@ -23,14 +23,31 @@ class ServicesWrapper:
     An instance for each service class is set at class initialization.
     """
 
-    gfycat: Gfycat = Gfycat()
-    vreddit: Vreddit = Vreddit()
-    imgur: Imgur = Imgur()
-    youtube: Youtube = Youtube()
-    generic: Generic = Generic()
+    gfycat: Gfycat
+    vreddit: Vreddit
+    imgur: Imgur
+    youtube: Youtube
+    generic: Generic
 
     @classmethod
-    @icontract.require(lambda cls, url, data: url is not None, "url must not be None")
+    def init_services(cls):
+        """
+        Construct services objects and initialize authentication.
+
+        .. note::
+            This needs to be called after having loaded the secret in the
+            configuration.
+        """
+        cls.gfycat = Gfycat()
+        cls.vreddit = Vreddit()
+        cls.imgur = Imgur()
+        cls.youtube = Youtube()
+        cls.generic = Generic()
+
+    @classmethod
+    @icontract.require(
+        lambda cls, url, data: url is not None, "url must not be None"
+    )
     @icontract.ensure(lambda result: result is not None)
     def get_media(cls, url: str, data: Any = None) -> Media:
         """

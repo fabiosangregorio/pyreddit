@@ -1,10 +1,14 @@
 import unittest
 from parameterized import parameterized, param
 
-import pyreddit.helpers as helpers
+from .. import helpers
+from .tests_initializer import init_tests
 
 
 class TestHelpers(unittest.TestCase):
+    def setUp(self):
+        init_tests()
+
     def test_get_random_post_url(self):
         self.assertEqual(
             helpers.get_random_post_url("r/gifs"),
@@ -74,7 +78,9 @@ class TestHelpers(unittest.TestCase):
                 text="r/subreddit_one",
                 expected="r/subreddit_one",
             ),
-            param(text="r/subreddit_one", reverse=True, expected="r/subreddit_one"),
+            param(
+                text="r/subreddit_one", reverse=True, expected="r/subreddit_one"
+            ),
         ]
     )
     def test_get_subreddit_name(self, text, expected, reverse=False):
@@ -160,13 +166,31 @@ class TestHelpers(unittest.TestCase):
             }
         }
 
-        self.assertEqual(helpers.chained_get(obj, ["l1", "l2_with_value"]), "ok")
+        self.assertEqual(
+            helpers.chained_get(obj, ["l1", "l2_with_value"]), "ok"
+        )
         self.assertEqual(helpers.chained_get(obj, ["l1", "l2_with_none"]), None)
         self.assertEqual(
             helpers.chained_get(obj, ["l1", "l2"]), {"l3_with_value": "ok"}
         )
-        self.assertEqual(helpers.chained_get(obj, ["l1", "l2", "l3_with_value"]), "ok")
-        self.assertEqual(helpers.chained_get(obj, ["l1", "l3", "l3_with_value"]), None)
+        self.assertEqual(
+            helpers.chained_get(obj, ["l1", "l2", "l3_with_value"]), "ok"
+        )
+        self.assertEqual(
+            helpers.chained_get(obj, ["l1", "l3", "l3_with_value"]), None
+        )
         self.assertEqual(
             helpers.chained_get(obj, ["l1", "l3", "l3_with_value"], {}), {}
         )
+
+    @parameterized.expand(
+        [
+            param(
+                url="https://www.reddit.com", expected="https://www.reddit.com"
+            ),
+            param(url="/r/test", expected="https://www.reddit.com/r/test"),
+            param(url="r/test", expected="https://www.reddit.com/r/test"),
+        ]
+    )
+    def test_prefix_reddit_url(self, url, expected):
+        self.assertEqual(helpers.prefix_reddit_url(url), expected)

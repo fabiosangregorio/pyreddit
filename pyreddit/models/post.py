@@ -2,9 +2,9 @@
 
 from typing import Optional
 
-from pyreddit.models.content_type import ContentType
-from pyreddit.helpers import escape_markdown
-from pyreddit.models.media import Media
+from .content_type import ContentType
+from ..helpers import escape_markdown, prefix_reddit_url
+from ..models.media import Media
 
 
 class Post:
@@ -44,22 +44,28 @@ class Post:
         self.text = text
         self.media = media
 
+    def get_footer(self) -> str:
+        """
+        Get footer of the post.
+
+        This includes a link to the subreddit and a link to the post.
+        """
+        subreddit_url = prefix_reddit_url(self.subreddit)
+        return (
+            f"[Link to post]({self.permalink}) \\| "
+            f"[{escape_markdown(self.subreddit)}]({subreddit_url})"
+        )
+
     def get_msg(self) -> str:
         """
         Get the full message of the post.
 
-        This includes post title, description and footer. The footer consists of
-        a link to the subreddit and a link to the post.
+        This includes post title, description and footer.
         """
-        subreddit_url = f"https://www.reddit.com/{self.subreddit}"
-        footer = (
-            f"[Link to post](https://reddit.com{self.permalink}) \\| "
-            f"[{escape_markdown(self.subreddit)}]({subreddit_url})"
-        )
         return (
             f"*{escape_markdown(self.title)}*"
             f"\n{escape_markdown(self.text)}"
-            f"\n\n{footer}"
+            f"\n\n{self.get_footer()}"
         )
 
     def get_type(self) -> ContentType:

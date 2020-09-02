@@ -2,14 +2,14 @@
 import re
 from typing import Any
 import json
+import os
 from urllib.parse import urlparse
 import requests
 from requests import Response
 
-from pyreddit.config.config import secret
-from pyreddit.services.service import Service
-from pyreddit.models.media import Media
-from pyreddit.models.content_type import ContentType
+from .service import Service
+from ..models.media import Media
+from ..models.content_type import ContentType
 
 
 class Imgur(Service):
@@ -39,7 +39,9 @@ class Imgur(Service):
         """
         return requests.get(
             url,
-            headers={"Authorization": f"Client-ID {secret.IMGUR_CLIENT_ID}"},
+            headers={
+                "Authorization": f"Client-ID {os.getenv('IMGUR_CLIENT_ID')}"  # type: ignore
+            },
         )
 
     @classmethod

@@ -7,29 +7,26 @@ and build pyreddit objects.
 
 import random
 from typing import Any
+import os
 
 import requests
 import icontract
 
-import pyreddit.helpers as helpers
-from pyreddit.config.config import secret
-from pyreddit.models.post import Post
-from pyreddit.models.content_type import ContentType
-from pyreddit.exceptions import (
+
+from . import helpers
+from .models.post import Post
+from .models.content_type import ContentType
+from .exceptions import (
     PostRequestError,
     SubredditPrivateError,
     SubredditDoesntExistError,
     PostRetrievalError,
     RedditError,
 )
-from pyreddit.services.services_wrapper import ServicesWrapper
+from .services.services_wrapper import ServicesWrapper
 
 
-@icontract.require(lambda post_url: post_url is not None, "post_url must not be None")
-@icontract.ensure(
-    lambda result: helpers.chained_get(result, ["data", "children"])[0]["data"]
-    is not None
-)
+@icontract.require(lambda post_url: post_url is not None)
 def _get_json(post_url: str) -> Any:
     """
     Get post json from Reddit API and handle all request/json errors.
@@ -48,7 +45,7 @@ def _get_json(post_url: str) -> Any:
     try:
         response = requests.get(
             f"{post_url}.json",
-            headers={"User-agent": secret.REDDIT_USER_AGENT},
+            headers={"User-agent": os.getenv("REDDIT_USER_AGENT")},  # type: ignore
         )
         json = response.json()
         # some subreddits have the json data wrapped in brackets, some do not
@@ -69,7 +66,7 @@ def _get_json(post_url: str) -> Any:
     return json
 
 
-@icontract.require(lambda post_url: post_url is not None, "post_url must not be None")
+@icontract.require(lambda post_url: post_url is not None)
 @icontract.ensure(lambda result: result is not None)
 def get_post(post_url: str) -> Post:
     """
@@ -93,7 +90,7 @@ def get_post(post_url: str) -> Post:
         idx = random.randint(0, len(json["data"]["children"]) - 1)
         data = json["data"]["children"][idx]["data"]
         subreddit = data["subreddit_name_prefixed"]
-        permalink = data["permalink"]
+        permalink = helpers.prefix_reddit_url(data["permalink"])
         post_title = data["title"]
         post_text = helpers.truncate_text(data["selftext"])
         content_url = data["url"]
@@ -103,7 +100,9 @@ def get_post(post_url: str) -> Post:
             media = ServicesWrapper.get_media(content_url, data)
             assert media is not None
             if media.type == ContentType.YOUTUBE:
-                post_text = f"{post_text}\n\n[Link to youtube video]({media.url})"
+                post_text = (
+                    f"{post_text}\n\n[Link to youtube video]({media.url})"
+                )
 
         post = Post(subreddit, permalink, post_title, post_text, media)
         return post

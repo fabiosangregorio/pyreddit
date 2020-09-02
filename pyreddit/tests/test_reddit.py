@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-import pyreddit.reddit as reddit
+from .. import reddit
 import json
 import pathlib
 from parameterized import parameterized, param
@@ -13,11 +13,15 @@ from pyreddit.exceptions import (
 from pyreddit.models.content_type import ContentType
 from pyreddit.models.post import Post
 from pyreddit.models.media import Media
-
 from pyreddit.exceptions import PostRetrievalError, PostRequestError
+
+from .tests_initializer import init_tests
 
 
 class TestReddit(unittest.TestCase):
+    def setUp(self):
+        init_tests()
+
     def _get_json(self, filename):
         with open(pathlib.Path(__file__).parent / "json" / filename) as f:
             return json.load(f)
@@ -38,7 +42,9 @@ class TestReddit(unittest.TestCase):
         }
         mock_get.return_value.status_code = 404
         with self.assertRaises(SubredditDoesntExistError):
-            reddit._get_json("https://reddit.com/r/n_o_t_a_n_a_m_e_i_h_ox_p_e/random")
+            reddit._get_json(
+                "https://reddit.com/r/n_o_t_a_n_a_m_e_i_h_ox_p_e/random"
+            )
 
     @patch("pyreddit.reddit.requests.get")
     def test_get_json_private(self, mock_get):
@@ -56,7 +62,9 @@ class TestReddit(unittest.TestCase):
 
     @patch("pyreddit.reddit.requests.get")
     def test_get_json_valid(self, mock_get):
-        mock_json = self._get_json("r-funny-my_weather_app_nailed_it_today.json")
+        mock_json = self._get_json(
+            "r-funny-my_weather_app_nailed_it_today.json"
+        )
         mock_get.return_value.ok = True
         mock_get.return_value.json = lambda: mock_json
         mock_get.return_value.status_code = 200
@@ -71,7 +79,9 @@ class TestReddit(unittest.TestCase):
         mock_get.return_value.ok = True
         mock_get.return_value.status_code = 200
         mock_get.return_value.history = [0]
-        mock_get.return_value.json = lambda: {"data": {"children": [{"mock": True}]}}
+        mock_get.return_value.json = lambda: {
+            "data": {"children": [{"mock": True}]}
+        }
         mock_get.return_value.url = "https://www.reddit.com/search.json"
         with self.assertRaises(SubredditDoesntExistError):
             reddit._get_json(
@@ -86,7 +96,7 @@ class TestReddit(unittest.TestCase):
                 mock_json_filename="showerthoughts-text_post.json",
                 expected=Post(
                     subreddit="r/Showerthoughts",
-                    permalink="/r/Showerthoughts/comments/gjpq1t/we_will_be_slaves_to_our_dental_health_for_the/",
+                    permalink="https://www.reddit.com/r/Showerthoughts/comments/gjpq1t/we_will_be_slaves_to_our_dental_health_for_the/",
                     title="We will be slaves to our dental health for the rest of our lives.",
                     text="",
                 ),
@@ -97,7 +107,7 @@ class TestReddit(unittest.TestCase):
                 mock_json_filename="pics-photo_post.json",
                 expected=Post(
                     subreddit="r/pics",
-                    permalink="/r/pics/comments/gjm3ik/hadnt_drawn_for_10_years_pre_lockdown_this_is_my/",
+                    permalink="https://www.reddit.com/r/pics/comments/gjm3ik/hadnt_drawn_for_10_years_pre_lockdown_this_is_my/",
                     title="Hadn't drawn for 10 years pre lockdown. This is my 2nd piece during lockdown. Pencil on paper.",
                     text="",
                 ),
@@ -108,7 +118,7 @@ class TestReddit(unittest.TestCase):
                 mock_json_filename="bicycling_crosspost.json",
                 expected=Post(
                     subreddit="r/bicycling",
-                    permalink="/r/bicycling/comments/aevkgj/finally_know_how_to_crosspost/",
+                    permalink="https://www.reddit.com/r/bicycling/comments/aevkgj/finally_know_how_to_crosspost/",
                     title="Finally know how to crosspost",
                     text="",
                 ),
@@ -142,7 +152,7 @@ class TestReddit(unittest.TestCase):
                 mock_json_filename="videos_youtube-post.json",
                 expected=Post(
                     subreddit="r/videos",
-                    permalink="/r/videos/comments/gm1m12/its_been_ten_years_since_the_if_my_grandmother/",
+                    permalink="https://www.reddit.com/r/videos/comments/gm1m12/its_been_ten_years_since_the_if_my_grandmother/",
                     title='It\'s been ten years since the "If my Grandmother had wheels she would have been a bike" moment',
                     text="",
                 ),

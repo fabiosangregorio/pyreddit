@@ -3,17 +3,16 @@ from typing import Any
 
 import json
 from urllib.parse import urlparse
-
+import os
 import requests
 
 from requests import Response
 import icontract
 
-from pyreddit.config.config import secret
-from pyreddit.services.service import Service
-from pyreddit.models.media import Media
-from pyreddit.models.content_type import ContentType
-from pyreddit.exceptions import AuthenticationError
+from .service import Service
+from ..models.media import Media
+from ..models.content_type import ContentType
+from ..exceptions import AuthenticationError
 
 
 @icontract.invariant(
@@ -60,7 +59,7 @@ class Gfycat(Service):
         """
         Override of `pyreddit.services.service.Service.postprocess` method.
 
-        Returns the media url which respects the Telegram API file limits, if
+        Returns the media url which respects the API file limits, if
         present.
         """
         gfy_item: Any = json.loads(response.content)["gfyItem"]
@@ -69,7 +68,6 @@ class Gfycat(Service):
             ContentType.VIDEO,
             gfy_item["webmSize"],
         )
-        # Telegram does not support webm
         # See: https://shorturl.at/dnyBM
         if media.size and media.size > 20000000:
             media.url = gfy_item["max5mbGif"]
@@ -89,8 +87,8 @@ class Gfycat(Service):
             data=json.dumps(
                 {
                     "grant_type": "client_credentials",
-                    "client_id": secret.GFYCAT_CLIENT_ID,
-                    "client_secret": secret.GFYCAT_CLIENT_SECRET,
+                    "client_id": os.getenv("GFYCAT_CLIENT_ID"),  # type: ignore
+                    "client_secret": os.getenv("GFYCAT_CLIENT_SECRET"),  # type: ignore
                 }
             ),
         )

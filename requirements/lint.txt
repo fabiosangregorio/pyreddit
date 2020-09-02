@@ -1,0 +1,4 @@
+black>=19.10b0
+flake8>=3.7.9
+mypy>=0.782
+pyicontract-lint>=2.1.0
