@@ -94,15 +94,16 @@
 <span>def <span class="ident">escape_markdown</span></span>(<span>text, version=2, entity_type=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Helper function to escape telegram markup symbols.</p>
-<h2 id="args">Args</h2>
-<p>text (:obj:<code>str</code>): The text.
-version (:obj:<code>int</code> | :obj:<code>str</code>): Use to specify the version of telegrams Markdown.
-Either <code>1</code> or <code>2</code>. Defaults to <code>1</code>.
-entity_type (:obj:<code>str</code>, optional): For the entity types <code>PRE</code>, <code>CODE</code> and the link
-part of <code>TEXT_LINKS</code>, only certain characters need to be escaped in <code>MarkdownV2</code>.
-See the official API documentation for details. Only valid in combination with
-<code>version=2</code>, will be ignored else.</p></div>
+<div class="desc"><p>Escape telegram markup symbols.</p>
+<h2 id="args">Args:</h2>
+<pre><code>text (:obj:&lt;code&gt;str&lt;/code&gt;): The text.
+version (:obj:&lt;code&gt;int&lt;/code&gt; | :obj:&lt;code&gt;str&lt;/code&gt;): Use to specify the version of telegrams Markdown.
+    Either &lt;code&gt;1&lt;/code&gt; or &lt;code&gt;2&lt;/code&gt;. Defaults to &lt;code&gt;1&lt;/code&gt;.
+entity_type (:obj:&lt;code&gt;str&lt;/code&gt;, optional): For the entity types &lt;code&gt;PRE&lt;/code&gt;, &lt;code&gt;CODE&lt;/code&gt; and the link
+    part of &lt;code&gt;TEXT\_LINKS&lt;/code&gt;, only certain characters need to be escaped in &lt;code&gt;MarkdownV2&lt;/code&gt;.
+    See the official API documentation for details. Only valid in combination with
+    ``version=2``, will be ignored else.
+</code></pre></div>
 </dd>
 <dt id="pyreddit.helpers.truncate_text"><code class="name flex">
 <span>def <span class="ident">truncate_text</span></span>(<span>text: str, length: int = 200) ‑> str</span>
