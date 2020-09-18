@@ -66,6 +66,17 @@ across various services and providers.</p>
 </dl>
 <h3>Static methods</h3>
 <dl>
+<dt id="pyreddit.services.services_wrapper.ServicesWrapper.init_services"><code class="name flex">
+<span>def <span class="ident">init_services</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Construct services objects and initialize authentication.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This needs to be called after having loaded the secret in the
+configuration.</p>
+</div></div>
+</dd>
 <dt id="pyreddit.services.services_wrapper.ServicesWrapper.get_media"><code class="name flex">
 <span>def <span class="ident">get_media</span></span>(<span>cls, url: str, data: Any = None) ‑> <a title="pyreddit.models.media.Media" href="../models/media.html#pyreddit.models.media.Media">Media</a></span>
 </code></dt>
@@ -109,6 +120,7 @@ src="https://raw.githubusercontent.com/fabiosangregorio/telereddit/master/docs/i
 <li>
 <h4><code><a title="pyreddit.services.services_wrapper.ServicesWrapper" href="#pyreddit.services.services_wrapper.ServicesWrapper">ServicesWrapper</a></code></h4>
 <ul class="two-column">
+<li><code><a title="pyreddit.services.services_wrapper.ServicesWrapper.init_services" href="#pyreddit.services.services_wrapper.ServicesWrapper.init_services">init_services</a></code></li>
 <li><code><a title="pyreddit.services.services_wrapper.ServicesWrapper.get_media" href="#pyreddit.services.services_wrapper.ServicesWrapper.get_media">get_media</a></code></li>
 <li><code><a title="pyreddit.services.services_wrapper.ServicesWrapper.gfycat" href="#pyreddit.services.services_wrapper.ServicesWrapper.gfycat">gfycat</a></code></li>
 <li><code><a title="pyreddit.services.services_wrapper.ServicesWrapper.vreddit" href="#pyreddit.services.services_wrapper.ServicesWrapper.vreddit">vreddit</a></code></li>

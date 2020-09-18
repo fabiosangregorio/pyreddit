@@ -6,7 +6,7 @@
 <meta name="generator" content="pdoc 0.9.1" />
 <title>pyreddit API documentation</title>
 <meta name="description" content="PyReddit
-&gt; Reddit API for telereddit." />
+&gt; Reddit API for [telereddit](https://github.com/fabiosangregorio/telereddit) and …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -25,8 +25,59 @@
 <section id="section-intro">
 <h1 id="pyreddit">PyReddit</h1>
 <blockquote>
-<p>Reddit API for telereddit.</p>
+<p>Reddit API for <a href="https://github.com/fabiosangregorio/telereddit">telereddit</a> and <a href="https://github.com/fabiosangregorio/discoreddit">discoreddit</a>.</p>
 </blockquote>
+<h2 id="installation">Installation</h2>
+<ol>
+<li>Clone the repository</li>
+<li>Install requirements
+<code>bash
+pip install -r requirements/requirements.txt</code></li>
+</ol>
+<h2 id="usage">Usage</h2>
+<p>Before using pyreddit you must initialize it with a valid configuration secret using <a href="https://github.com/theskumar/python-dotenv">python-dotenv</a>.</p>
+<ol>
+<li>Duplicate <code>/pyreddit/config/.env.template</code></li>
+<li>Fill the required secrets (this duplicated file should NOT be committed.)</li>
+<li>
+<p>Initialize the environment variables
+```python
+import os
+from dotenv import load_dotenv
+from pyreddit.services.services_wrapper import ServicesWrapper</p>
+<p>load_dotenv(
+dotenv_path=os.path.join(os.path.dirname(<strong>file</strong>), "../config/.env")
+)
+ServicesWrapper.init_services()</p>
+<p>reddit.get_post("https://www.reddit.com/r/DidntKnowIWantedThat/comments/iruaqs/but_do_i_really_need_it/")
+```</p>
+</li>
+</ol>
+<h2 id="bugs-and-feature-requests">Bugs and feature requests</h2>
+<p>If you want to report a bug or would like a feature to be added, feel free to open an issue.</p>
+<h2 id="contributing">Contributing</h2>
+<ol>
+<li>Open an issue to discuss the change you want to make</li>
+<li>Fork the repository</li>
+<li>Install dev requirements
+<code>bash
+pip install -r requirements/dev.txt</code></li>
+<li>Make changes</li>
+<li>Run tests
+<code>bash
+python -m unittest</code></li>
+<li>Open a pull request and make sure all checks pass</li>
+</ol>
+<h2 id="versioning">Versioning</h2>
+<p>We follow Semantic Versioning. The version X.Y.Z indicates:</p>
+<ul>
+<li>X is the major version (backward-incompatible),</li>
+<li>Y is the minor version (backward-compatible), and</li>
+<li>Z is the patch version (backward-compatible bug fix).</li>
+</ul>
+<h2 id="license">License</h2>
+<p><strong><a href="https://www.gnu.org/licenses/gpl-3.0">GPL v3</a></strong> - Copyright 2020 © <a href="http://fabio.sangregorio.dev"
+target="_blank">fabio.sangregorio.dev</a>.</p>
 </section>
 <section>
 <h2 class="section-title" id="header-submodules">Sub-modules</h2>
@@ -74,7 +125,15 @@ src="https://raw.githubusercontent.com/fabiosangregorio/telereddit/master/docs/i
 <h1>Index</h1>
 <div class="toc">
 <ul>
-<li><a href="#pyreddit">PyReddit</a></li>
+<li><a href="#pyreddit">PyReddit</a><ul>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#usage">Usage</a></li>
+<li><a href="#bugs-and-feature-requests">Bugs and feature requests</a></li>
+<li><a href="#contributing">Contributing</a></li>
+<li><a href="#versioning">Versioning</a></li>
+<li><a href="#license">License</a></li>
+</ul>
+</li>
 </ul>
 </div>
 <ul id="index">

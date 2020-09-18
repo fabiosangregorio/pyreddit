@@ -91,10 +91,10 @@
 </dl></div>
 </dd>
 <dt id="pyreddit.helpers.escape_markdown"><code class="name flex">
-<span>def <span class="ident">escape_markdown</span></span>(<span>text, version=2, entity_type=None)</span>
+<span>def <span class="ident">escape_markdown</span></span>(<span>text: str, version=2, entity_type=None) ‑> str</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Escape telegram markup symbols.</p>
+<div class="desc"><p>Escape markup symbols.</p>
 <h2 id="args">Args:</h2>
 <pre><code>text (:obj:&lt;code&gt;str&lt;/code&gt;): The text.
 version (:obj:&lt;code&gt;int&lt;/code&gt; | :obj:&lt;code&gt;str&lt;/code&gt;): Use to specify the version of telegrams Markdown.
@@ -141,6 +141,22 @@ ellipsis.</p>
 <dl>
 <dt><code>str</code></dt>
 <dd>New string containing the polished text.</dd>
+</dl></div>
+</dd>
+<dt id="pyreddit.helpers.prefix_reddit_url"><code class="name flex">
+<span>def <span class="ident">prefix_reddit_url</span></span>(<span>url: str) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Return the url with reddit's base url as a prefix.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
+<dd>Url to prefix</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>New string containing the prefixed url</dd>
 </dl></div>
 </dd>
 <dt id="pyreddit.helpers.get_urls_from_text"><code class="name flex">
@@ -240,6 +256,7 @@ src="https://raw.githubusercontent.com/fabiosangregorio/telereddit/master/docs/i
 <li><code><a title="pyreddit.helpers.escape_markdown" href="#pyreddit.helpers.escape_markdown">escape_markdown</a></code></li>
 <li><code><a title="pyreddit.helpers.truncate_text" href="#pyreddit.helpers.truncate_text">truncate_text</a></code></li>
 <li><code><a title="pyreddit.helpers.polish_text" href="#pyreddit.helpers.polish_text">polish_text</a></code></li>
+<li><code><a title="pyreddit.helpers.prefix_reddit_url" href="#pyreddit.helpers.prefix_reddit_url">prefix_reddit_url</a></code></li>
 <li><code><a title="pyreddit.helpers.get_urls_from_text" href="#pyreddit.helpers.get_urls_from_text">get_urls_from_text</a></code></li>
 <li><code><a title="pyreddit.helpers.get" href="#pyreddit.helpers.get">get</a></code></li>
 <li><code><a title="pyreddit.helpers.chained_get" href="#pyreddit.helpers.chained_get">chained_get</a></code></li>
