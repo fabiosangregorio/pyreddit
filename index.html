@@ -30,9 +30,11 @@
 <h2 id="installation">Installation</h2>
 <ol>
 <li>Clone the repository</li>
-<li>Install requirements
-<code>bash
-pip install -r requirements/requirements.txt</code></li>
+<li>
+<p>Install requirements</p>
+<p><code>bash
+pip install -r requirements/requirements.txt</code></p>
+</li>
 </ol>
 <h2 id="usage">Usage</h2>
 <p>Before using pyreddit you must initialize it with a valid configuration secret using <a href="https://github.com/theskumar/python-dotenv">python-dotenv</a>.</p>
@@ -40,8 +42,8 @@ pip install -r requirements/requirements.txt</code></li>
 <li>Duplicate <code>/pyreddit/config/.env.template</code></li>
 <li>Fill the required secrets (this duplicated file should NOT be committed.)</li>
 <li>
-<p>Initialize the environment variables
-```python
+<p>Initialize the environment variables</p>
+<p>```python
 import os
 from dotenv import load_dotenv
 from pyreddit.services.services_wrapper import ServicesWrapper</p>
@@ -59,14 +61,22 @@ ServicesWrapper.init_services()</p>
 <ol>
 <li>Open an issue to discuss the change you want to make</li>
 <li>Fork the repository</li>
-<li>Install dev requirements
-<code>bash
-pip install -r requirements/dev.txt</code></li>
-<li>Make changes</li>
-<li>Run tests
-<code>bash
-python -m unittest</code></li>
-<li>Open a pull request and make sure all checks pass</li>
+<li>
+<p>Install dev requirements</p>
+<p><code>bash
+pip install -r requirements/dev.txt</code></p>
+</li>
+<li>
+<p>Make changes</p>
+</li>
+<li>
+<p>Run tests</p>
+<p><code>bash
+python -m unittest</code></p>
+</li>
+<li>
+<p>Open a pull request and make sure all checks pass</p>
+</li>
 </ol>
 <h2 id="versioning">Versioning</h2>
 <p>We follow Semantic Versioning. The version X.Y.Z indicates:</p>
