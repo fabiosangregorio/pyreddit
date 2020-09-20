@@ -4,13 +4,12 @@ from typing import Optional, Any, Union
 
 import requests
 from requests import Response
-import icontract
 
 from ..models.media import Media
 from ..exceptions import MediaRetrievalError
 
 
-class Service(icontract.DBC):
+class Service:
     """
     Abstract Base static Class for every service class.
 
@@ -62,10 +61,6 @@ class Service(icontract.DBC):
     """
 
     @classmethod
-    @icontract.require(
-        lambda cls, url, data: url is not None, "url must not be None"
-    )
-    @icontract.ensure(lambda result: result is not None)
     def preprocess(cls, url: str, data: Any) -> str:
         """
         Preprocess the media URL coming from Reddit json.
@@ -90,8 +85,6 @@ class Service(icontract.DBC):
         return url
 
     @classmethod
-    @icontract.require(lambda cls, url: url is not None, "url must not be None")
-    @icontract.ensure(lambda result: result is not None)
     def get(cls, url: str) -> Union[Response, str]:
         """
         Get the media information.
@@ -118,10 +111,6 @@ class Service(icontract.DBC):
 
     @classmethod
     @abstractmethod
-    @icontract.require(
-        lambda cls, response: response is not None, "response must not be None"
-    )
-    @icontract.ensure(lambda result: result is not None)
     def postprocess(cls, response: Union[Response, str]) -> Media:
         """
         From the service provider API response create the media object.
@@ -154,10 +143,6 @@ class Service(icontract.DBC):
         """
 
     @classmethod
-    @icontract.require(
-        lambda cls, url, data: url is not None, "url must not be None"
-    )
-    @icontract.ensure(lambda result: result is not None)
     def get_media(cls, url: str, data: Any) -> Media:
         """
         Entrypoint of the class.

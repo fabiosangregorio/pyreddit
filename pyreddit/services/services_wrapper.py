@@ -3,7 +3,6 @@
 import logging
 from urllib.parse import urlparse
 from typing import Any
-import icontract
 
 from .gfycat_service import Gfycat
 from .vreddit_service import Vreddit
@@ -45,10 +44,6 @@ class ServicesWrapper:
         cls.generic = Generic()
 
     @classmethod
-    @icontract.require(
-        lambda cls, url, data: url is not None, "url must not be None"
-    )
-    @icontract.ensure(lambda result: result is not None)
     def get_media(cls, url: str, data: Any = None) -> Media:
         """
         Given the url from the Reddit json, return the corresponding media obj.

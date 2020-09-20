@@ -7,7 +7,6 @@ import os
 import requests
 
 from requests import Response
-import icontract
 
 from .service import Service
 from ..models.media import Media
@@ -15,9 +14,6 @@ from ..models.content_type import ContentType
 from ..exceptions import AuthenticationError
 
 
-@icontract.invariant(
-    lambda self: self.is_authenticated is True and self.access_token is not None
-)
 class Gfycat(Service):
     """
     Service for Gfycat GIFs.

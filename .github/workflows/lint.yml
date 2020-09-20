@@ -38,6 +38,3 @@ jobs:
     
     - name: Check mypy linting
       run: mypy pyreddit
-
-    - name: Check icontract linting
-      run: pyicontract-lint --format verbose pyreddit

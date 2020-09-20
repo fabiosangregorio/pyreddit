@@ -81,28 +81,22 @@ class TestHelpers(unittest.TestCase):
             param(
                 text="r/subreddit_one", reverse=True, expected="r/subreddit_one"
             ),
+            param(text="", reverse=True, expected=None),
         ]
     )
     def test_get_subreddit_name(self, text, expected, reverse=False):
         self.assertEqual(helpers.get_subreddit_name(text, reverse), expected)
 
-    def test_get_subreddit_name_invalid(self):
-        with self.assertRaises(Exception):
-            helpers.get_subreddit_name("")
-
     @parameterized.expand(
         [
             param(text="truncate me", length=7, expected="truncat..."),
             param(text="truncate me", length=11, expected="truncate me"),
+            param(text="truncate me", length=0, expected="..."),
             param(text="", length=10, expected=""),
         ]
     )
     def test_truncate_text(self, text, length, expected):
         self.assertEqual(helpers.truncate_text(text, length), expected)
-
-    def test_truncate_invalid(self):
-        with self.assertRaises(Exception):
-            helpers.truncate_text("", 0)
 
     @parameterized.expand(
         [

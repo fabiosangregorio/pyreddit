@@ -10,7 +10,6 @@ from typing import Any
 import os
 
 import requests
-import icontract
 
 
 from . import helpers
@@ -26,7 +25,6 @@ from .exceptions import (
 from .services.services_wrapper import ServicesWrapper
 
 
-@icontract.require(lambda post_url: post_url is not None)
 def _get_json(post_url: str) -> Any:
     """
     Get post json from Reddit API and handle all request/json errors.
@@ -45,7 +43,7 @@ def _get_json(post_url: str) -> Any:
     try:
         response = requests.get(
             f"{post_url}.json",
-            headers={"User-agent": os.getenv("REDDIT_USER_AGENT")},  # type: ignore
+            headers={"User-agent": os.getenv("REDDIT_USER_AGENT")},
         )
         json = response.json()
         # some subreddits have the json data wrapped in brackets, some do not
@@ -66,8 +64,6 @@ def _get_json(post_url: str) -> Any:
     return json
 
 
-@icontract.require(lambda post_url: post_url is not None)
-@icontract.ensure(lambda result: result is not None)
 def get_post(post_url: str) -> Post:
     """
     Get the post from the Reddit API and construct the Post object.
