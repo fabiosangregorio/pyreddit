@@ -41,7 +41,6 @@
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="pyreddit.services.service.Service" href="service.html#pyreddit.services.service.Service">Service</a></li>
-<li>icontract._metaclass.DBC</li>
 </ul>
 <h3>Class variables</h3>
 <dl>
@@ -76,13 +75,13 @@ otherwise …</p></div>
 <h3>Static methods</h3>
 <dl>
 <dt id="pyreddit.services.generic_service.Generic.postprocess"><code class="name flex">
-<span>def <span class="ident">postprocess</span></span>(<span>cls, response) ‑> <a title="pyreddit.models.media.Media" href="../models/media.html#pyreddit.models.media.Media">Media</a></span>
+<span>def <span class="ident">postprocess</span></span>(<span>response) ‑> <a title="pyreddit.models.media.Media" href="../models/media.html#pyreddit.models.media.Media">Media</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Override of <code><a title="pyreddit.services.service.Service.postprocess" href="service.html#pyreddit.services.service.Service.postprocess">Service.postprocess()</a></code> method.</p></div>
 </dd>
 <dt id="pyreddit.services.generic_service.Generic.preprocess"><code class="name flex">
-<span>def <span class="ident">preprocess</span></span>(<span>cls, url: str, data: Any) ‑> str</span>
+<span>def <span class="ident">preprocess</span></span>(<span>url: str, data: Any) ‑> str</span>
 </code></dt>
 <dd>
 <p class="inheritance">
@@ -92,7 +91,7 @@ otherwise …</p></div>
 <div class="desc inherited"><p>Preprocess the media URL coming from Reddit json …</p></div>
 </dd>
 <dt id="pyreddit.services.generic_service.Generic.get"><code class="name flex">
-<span>def <span class="ident">get</span></span>(<span>cls, url: str) ‑> Union[requests.models.Response, str]</span>
+<span>def <span class="ident">get</span></span>(<span>url: str) ‑> Union[requests.models.Response, str]</span>
 </code></dt>
 <dd>
 <p class="inheritance">
@@ -112,7 +111,7 @@ otherwise …</p></div>
 <div class="desc inherited"><p>Authenticate the service on the service provider API …</p></div>
 </dd>
 <dt id="pyreddit.services.generic_service.Generic.get_media"><code class="name flex">
-<span>def <span class="ident">get_media</span></span>(<span>cls, url: str, data: Any) ‑> <a title="pyreddit.models.media.Media" href="../models/media.html#pyreddit.models.media.Media">Media</a></span>
+<span>def <span class="ident">get_media</span></span>(<span>url: str, data: Any) ‑> <a title="pyreddit.models.media.Media" href="../models/media.html#pyreddit.models.media.Media">Media</a></span>
 </code></dt>
 <dd>
 <p class="inheritance">

@@ -56,10 +56,6 @@ implementation, which can be easily overwritten.</p>
 <p>Authenticated services need to present an <code>__init__</code> method in which the
 specific service authentication method is called, in order to authenticate
 for the first time on the Service creation.</p></div>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li>icontract._metaclass.DBC</li>
-</ul>
 <h3>Subclasses</h3>
 <ul class="hlist">
 <li><a title="pyreddit.services.generic_service.Generic" href="generic_service.html#pyreddit.services.generic_service.Generic">Generic</a></li>
@@ -97,7 +93,7 @@ otherwise.</p>
 <h3>Static methods</h3>
 <dl>
 <dt id="pyreddit.services.service.Service.preprocess"><code class="name flex">
-<span>def <span class="ident">preprocess</span></span>(<span>cls, url: str, data: Any) ‑> str</span>
+<span>def <span class="ident">preprocess</span></span>(<span>url: str, data: Any) ‑> str</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Preprocess the media URL coming from Reddit json.</p>
@@ -118,7 +114,7 @@ fallback media urls for specific services.</dd>
 </dl></div>
 </dd>
 <dt id="pyreddit.services.service.Service.get"><code class="name flex">
-<span>def <span class="ident">get</span></span>(<span>cls, url: str) ‑> Union[requests.models.Response, str]</span>
+<span>def <span class="ident">get</span></span>(<span>url: str) ‑> Union[requests.models.Response, str]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Get the media information.</p>
@@ -139,7 +135,7 @@ request can be fired to get the media information.</dd>
 Response from the service provider API.</p></div>
 </dd>
 <dt id="pyreddit.services.service.Service.postprocess"><code class="name flex">
-<span>def <span class="ident">postprocess</span></span>(<span>cls, response: Union[requests.models.Response, str]) ‑> <a title="pyreddit.models.media.Media" href="../models/media.html#pyreddit.models.media.Media">Media</a></span>
+<span>def <span class="ident">postprocess</span></span>(<span>response: Union[requests.models.Response, str]) ‑> <a title="pyreddit.models.media.Media" href="../models/media.html#pyreddit.models.media.Media">Media</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>From the service provider API response create the media object.</p>
@@ -167,7 +163,7 @@ Media object related to the media retrieval process.</p></div>
 token.</p></div>
 </dd>
 <dt id="pyreddit.services.service.Service.get_media"><code class="name flex">
-<span>def <span class="ident">get_media</span></span>(<span>cls, url: str, data: Any) ‑> <a title="pyreddit.models.media.Media" href="../models/media.html#pyreddit.models.media.Media">Media</a></span>
+<span>def <span class="ident">get_media</span></span>(<span>url: str, data: Any) ‑> <a title="pyreddit.models.media.Media" href="../models/media.html#pyreddit.models.media.Media">Media</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Entrypoint of the class.</p>
