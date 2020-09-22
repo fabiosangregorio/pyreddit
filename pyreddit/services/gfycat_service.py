@@ -1,17 +1,16 @@
 """Service for Gfycat GIFs."""
-from typing import Any
-
 import json
-from urllib.parse import urlparse
 import os
-import requests
+from typing import Any
+from urllib.parse import urlparse
 
+import requests
 from requests import Response
 
-from .service import Service
-from ..models.media import Media
-from ..models.content_type import ContentType
 from ..exceptions import AuthenticationError
+from ..models.content_type import ContentType
+from ..models.media import Media
+from .service import Service
 
 
 class Gfycat(Service):

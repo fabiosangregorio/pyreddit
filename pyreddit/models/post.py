@@ -2,9 +2,9 @@
 
 from typing import Optional
 
-from .content_type import ContentType
 from ..helpers import escape_markdown, prefix_reddit_url
 from ..models.media import Media
+from .content_type import ContentType
 
 
 class Post:

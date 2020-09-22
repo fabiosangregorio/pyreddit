@@ -1,15 +1,15 @@
 """Entrypoint of the whole services pattern."""
 
 import logging
-from urllib.parse import urlparse
 from typing import Any
+from urllib.parse import urlparse
 
-from .gfycat_service import Gfycat
-from .vreddit_service import Vreddit
-from .imgur_service import Imgur
-from .youtube_service import Youtube
-from .generic_service import Generic
 from ..models.media import Media
+from .generic_service import Generic
+from .gfycat_service import Gfycat
+from .imgur_service import Imgur
+from .vreddit_service import Vreddit
+from .youtube_service import Youtube
 
 
 class ServicesWrapper:

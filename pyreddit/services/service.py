@@ -1,12 +1,12 @@
 """Abstract Base static Class for every service."""
 from abc import abstractmethod
-from typing import Optional, Any, Union
+from typing import Any, Optional, Union
 
 import requests
 from requests import Response
 
-from ..models.media import Media
 from ..exceptions import MediaRetrievalError
+from ..models.media import Media
 
 
 class Service:

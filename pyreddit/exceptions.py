@@ -5,11 +5,12 @@ The application follows the try/catch pattern to return errors in the program
 flow between two functions.
 """
 
+import logging
+import os
 import traceback
 from typing import Any
-import logging
+
 import sentry_sdk as sentry
-import os
 
 
 class RedditError(Exception):
@@ -46,12 +47,8 @@ class RedditError(Exception):
                         scope.set_extra(key, value)
             if capture:
                 sentry.capture_exception()
-        traceback.print_exc()
-        logging.exception(
-            "\nEXCEPTION: %s, MESSAGE: %s, DATA: %s",
-            self.__class__.__name__,
-            self,
-            data,
+        logging.error(
+            f"{self.__class__.__name__}, {('data: '+ str(data)) if data else ''}"
         )
 
 

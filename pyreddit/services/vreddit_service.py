@@ -1,11 +1,12 @@
 """Service for v.redd.it GIFs."""
 from typing import Any, Optional
+
 import requests
 
 from .. import helpers
-from .service import Service
-from ..models.media import Media
 from ..models.content_type import ContentType
+from ..models.media import Media
+from .service import Service
 
 
 class Vreddit(Service):

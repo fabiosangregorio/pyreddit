@@ -1,12 +1,8 @@
-from dotenv import load_dotenv
-import os
+import logging
 
-from ..services.services_wrapper import ServicesWrapper
+from .. import reddit
 
 
 def init_tests():
-    load_dotenv(
-        dotenv_path=os.path.join(os.path.dirname(__file__), "../config/.env")
-    )
-
-    ServicesWrapper.init_services()
+    reddit.init()
+    logging.disable(logging.ERROR)

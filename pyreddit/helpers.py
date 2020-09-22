@@ -1,8 +1,9 @@
 """Miscellaneous helpers for the whole application."""
 
-from typing import List, Optional, Any
-import re
 import os
+import re
+from typing import Any, List, Optional
+
 import requests
 from requests import Response
 from requests.exceptions import RequestException

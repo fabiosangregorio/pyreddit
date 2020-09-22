@@ -1,9 +1,10 @@
 import unittest
-from parameterized import parameterized, param
 
-from pyreddit.models.post import Post
-from pyreddit.models.media import Media
+from parameterized import param, parameterized
+
 from pyreddit.models.content_type import ContentType
+from pyreddit.models.media import Media
+from pyreddit.models.post import Post
 
 from .tests_initializer import init_tests
 

@@ -5,24 +5,31 @@ Contains all the functions to call Reddit APIs, retrieve the desired information
 and build pyreddit objects.
 """
 
-import random
-from typing import Any
 import os
+import random
+from typing import Any, Optional
 
 import requests
-
+from dotenv import load_dotenv
 
 from . import helpers
-from .models.post import Post
-from .models.content_type import ContentType
 from .exceptions import (
     PostRequestError,
-    SubredditPrivateError,
-    SubredditDoesntExistError,
     PostRetrievalError,
     RedditError,
+    SubredditDoesntExistError,
+    SubredditPrivateError,
 )
+from .models.content_type import ContentType
+from .models.post import Post
 from .services.services_wrapper import ServicesWrapper
+
+
+def init(env_path: Optional[str] = None) -> None:
+    if env_path is None:
+        env_path = os.path.join(os.path.dirname(__file__), "./config/.env")
+    load_dotenv(dotenv_path=env_path)
+    ServicesWrapper.init_services()
 
 
 def _get_json(post_url: str) -> Any:

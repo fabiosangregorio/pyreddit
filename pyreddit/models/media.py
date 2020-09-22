@@ -1,6 +1,7 @@
 """Module for Media class."""
 
 from typing import Optional
+
 from .content_type import ContentType
 
 

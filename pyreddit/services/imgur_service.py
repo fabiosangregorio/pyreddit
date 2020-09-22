@@ -1,15 +1,16 @@
 """Service for Imgur images and videos."""
-import re
-from typing import Any
 import json
 import os
+import re
+from typing import Any
 from urllib.parse import urlparse
+
 import requests
 from requests import Response
 
-from .service import Service
-from ..models.media import Media
 from ..models.content_type import ContentType
+from ..models.media import Media
+from .service import Service
 
 
 class Imgur(Service):

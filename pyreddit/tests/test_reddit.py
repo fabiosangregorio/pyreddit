@@ -1,20 +1,18 @@
-import unittest
-from unittest.mock import patch
-from .. import reddit
 import json
 import pathlib
-from parameterized import parameterized, param
+import unittest
+from unittest.mock import patch
 
-from pyreddit.exceptions import (
-    SubredditDoesntExistError,
-    SubredditPrivateError,
-)
+from parameterized import param, parameterized
 
+from pyreddit.exceptions import (PostRequestError, PostRetrievalError,
+                                 SubredditDoesntExistError,
+                                 SubredditPrivateError)
 from pyreddit.models.content_type import ContentType
-from pyreddit.models.post import Post
 from pyreddit.models.media import Media
-from pyreddit.exceptions import PostRetrievalError, PostRequestError
+from pyreddit.models.post import Post
 
+from .. import reddit
 from .tests_initializer import init_tests
 
 

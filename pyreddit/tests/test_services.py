@@ -1,12 +1,12 @@
 import unittest
-from parameterized import parameterized, param
 from unittest.mock import patch
 
-from pyreddit.services.services_wrapper import ServicesWrapper
-from pyreddit.models.content_type import ContentType
-from pyreddit.services.gfycat_service import Gfycat
+from parameterized import param, parameterized
 
 from pyreddit.exceptions import AuthenticationError, MediaRetrievalError
+from pyreddit.models.content_type import ContentType
+from pyreddit.services.gfycat_service import Gfycat
+from pyreddit.services.services_wrapper import ServicesWrapper
 
 from .tests_initializer import init_tests
 

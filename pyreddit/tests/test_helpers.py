@@ -1,5 +1,6 @@
 import unittest
-from parameterized import parameterized, param
+
+from parameterized import param, parameterized
 
 from .. import helpers
 from .tests_initializer import init_tests
