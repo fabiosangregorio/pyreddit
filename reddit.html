@@ -33,6 +33,17 @@ and build pyreddit objects.</p>
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
+<dt id="pyreddit.reddit.init"><code class="name flex">
+<span>def <span class="ident">init</span></span>(<span>env_path: Union[str, NoneType] = None) ‑> NoneType</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Init environment variables and services.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>env_path</code></strong> :&ensp;<code>Optional[str]</code></dt>
+<dd>path for the dotenv config file. Defaults to /config/.env</dd>
+</dl></div>
+</dd>
 <dt id="pyreddit.reddit.get_post"><code class="name flex">
 <span>def <span class="ident">get_post</span></span>(<span>post_url: str) ‑> <a title="pyreddit.models.post.Post" href="models/post.html#pyreddit.models.post.Post">Post</a></span>
 </code></dt>
@@ -67,6 +78,7 @@ src="https://raw.githubusercontent.com/fabiosangregorio/telereddit/master/docs/i
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
+<li><code><a title="pyreddit.reddit.init" href="#pyreddit.reddit.init">init</a></code></li>
 <li><code><a title="pyreddit.reddit.get_post" href="#pyreddit.reddit.get_post">get_post</a></code></li>
 </ul>
 </li>
