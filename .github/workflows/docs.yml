@@ -36,10 +36,6 @@ jobs:
         pip install -r ./requirements/docs.txt
         pip install -r ./requirements/test.txt
 
-    - name: Run pydocstyle
-      run: |
-        pydocstyle pyreddit
-
     - name: Generate documentation
       run: |
         pdoc --html --output-dir="docs/" --template-dir="docs/templates" --config show_source_code=False --force .

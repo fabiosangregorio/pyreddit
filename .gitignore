@@ -74,3 +74,4 @@ html
 !.env.template
 pythonenv*
 workbench.py
+docs/pyreddit

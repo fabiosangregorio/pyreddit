@@ -26,6 +26,14 @@ from .services.services_wrapper import ServicesWrapper
 
 
 def init(env_path: Optional[str] = None) -> None:
+    """
+    Init environment variables and services.
+
+    Parameters
+    ----------
+    env_path : Optional[str]
+        path for the dotenv config file. Defaults to /config/.env
+    """
     if env_path is None:
         env_path = os.path.join(os.path.dirname(__file__), "./config/.env")
     load_dotenv(dotenv_path=env_path)

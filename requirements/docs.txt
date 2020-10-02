@@ -1,3 +1,2 @@
 pdoc3>=0.8.1
-pydocstyle>=5.0.2
 pylint>=2.6.0

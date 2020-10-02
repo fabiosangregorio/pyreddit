@@ -30,6 +30,9 @@ jobs:
       run: |
         pip install -r ./requirements/lint.txt
 
+    - name: Run pydocstyle
+      run: pydocstyle pyreddit
+    
     - name: Check black code formatting
       run: python -m black pyreddit --check
 

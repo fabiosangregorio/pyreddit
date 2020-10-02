@@ -7,7 +7,6 @@ flow between two functions.
 
 import logging
 import os
-import traceback
 from typing import Any
 
 import sentry_sdk as sentry

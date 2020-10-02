@@ -5,9 +5,12 @@ from unittest.mock import patch
 
 from parameterized import param, parameterized
 
-from pyreddit.exceptions import (PostRequestError, PostRetrievalError,
-                                 SubredditDoesntExistError,
-                                 SubredditPrivateError)
+from pyreddit.exceptions import (
+    PostRequestError,
+    PostRetrievalError,
+    SubredditDoesntExistError,
+    SubredditPrivateError,
+)
 from pyreddit.models.content_type import ContentType
 from pyreddit.models.media import Media
 from pyreddit.models.post import Post
