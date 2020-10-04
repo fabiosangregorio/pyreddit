@@ -20,7 +20,6 @@ from .exceptions import (
     SubredditDoesntExistError,
     SubredditPrivateError,
 )
-from .models.content_type import ContentType
 from .models.post import Post
 from .services.services_wrapper import ServicesWrapper
 
