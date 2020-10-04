@@ -167,7 +167,7 @@ def prefix_reddit_url(url: str) -> str:
         New string containing the prefixed url
 
     """
-    if url.startswith("http"):
+    if url is None or len(url) == 0 or url.startswith("http"):
         return url
     if url[0] != "/":
         url = "/" + url
