@@ -91,10 +91,10 @@
 </dl></div>
 </dd>
 <dt id="pyreddit.helpers.escape_markdown"><code class="name flex">
-<span>def <span class="ident">escape_markdown</span></span>(<span>text, version=2, entity_type=None)</span>
+<span>def <span class="ident">escape_markdown</span></span>(<span>text: str, version=2, entity_type=None) ‑> str</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Escape telegram markup symbols.</p>
+<div class="desc"><p>Escape markup symbols.</p>
 <h2 id="args">Args:</h2>
 <pre><code>text (:obj:&lt;code&gt;str&lt;/code&gt;): The text.
 version (:obj:&lt;code&gt;int&lt;/code&gt; | :obj:&lt;code&gt;str&lt;/code&gt;): Use to specify the version of telegrams Markdown.
@@ -144,7 +144,7 @@ ellipsis.</p>
 </dl></div>
 </dd>
 <dt id="pyreddit.helpers.prefix_reddit_url"><code class="name flex">
-<span>def <span class="ident">prefix_reddit_url</span></span>(<span>url: str, leading_slash: bool = False) ‑> str</span>
+<span>def <span class="ident">prefix_reddit_url</span></span>(<span>url: str) ‑> str</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Return the url with reddit's base url as a prefix.</p>
@@ -152,8 +152,6 @@ ellipsis.</p>
 <dl>
 <dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
 <dd>Url to prefix</dd>
-<dt><strong><code>leading_slash</code></strong> :&ensp;<code>bool</code></dt>
-<dd>Wether to add a leading slash between the base url and <code>url</code></dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
