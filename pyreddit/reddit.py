@@ -109,11 +109,6 @@ def get_post(post_url: str) -> Post:
         media = None
         if "/comments/" not in content_url:
             media = ServicesWrapper.get_media(content_url, data)
-            assert media is not None
-            if media.type == ContentType.YOUTUBE:
-                post_text = (
-                    f"{post_text}\n\n[Link to youtube video]({media.url})"
-                )
 
         post = Post(subreddit, permalink, post_title, post_text, media)
         return post

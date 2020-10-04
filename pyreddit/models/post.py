@@ -62,11 +62,16 @@ class Post:
 
         This includes post title, description and footer.
         """
-        return (
-            f"*{escape_markdown(self.title)}*"
-            f"\n{escape_markdown(self.text)}"
-            f"\n\n{self.get_footer()}"
-        )
+        msg = f"*{escape_markdown(self.title)}*"
+        if self.text is not None and len(self.text) > 0:
+            msg += f"\n{escape_markdown(self.text)}"
+        if self.media is not None and self.media.type == ContentType.YOUTUBE:
+            # HACK: creating an empty link with the youtube video results in
+            #   telegram generating the web preview for the video
+            msg += f"[ ]({self.media.url})"
+        msg += f"\n\n{self.get_footer()}"
+
+        return msg
 
     def get_type(self) -> ContentType:
         """Return the post type: this is determined by the media type, if present."""
