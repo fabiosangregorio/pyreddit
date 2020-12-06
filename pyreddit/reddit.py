@@ -78,7 +78,7 @@ def _get_json(post_url: str) -> Any:
     return json
 
 
-def get_post(post_url: str) -> Post:
+def get_posts(post_url: str) -> Post:
     """
     Get the post from the Reddit API and construct the Post object.
 
@@ -105,12 +105,18 @@ def get_post(post_url: str) -> Post:
         post_text = helpers.truncate_text(data["selftext"])
         content_url = data["url"]
 
-        media = None
-        if "/comments/" not in content_url:
-            media = ServicesWrapper.get_media(content_url, data)
+        medias = None
+        posts = []
+        if "/comments/" in content_url:
+            posts.append(Post(subreddit, permalink, post_title, post_text))
+        else:
+            medias = ServicesWrapper.get_media(content_url, data)
+            for media in medias:
+                posts.append(
+                    Post(subreddit, permalink, post_title, post_text, media)
+                )
 
-        post = Post(subreddit, permalink, post_title, post_text, media)
-        return post
+        return posts
 
     except Exception as e:
         if issubclass(type(e), RedditError):

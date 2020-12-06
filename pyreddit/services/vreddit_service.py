@@ -1,5 +1,5 @@
 """Service for v.redd.it GIFs."""
-from typing import Any, Optional
+from typing import Any, Optional, List
 
 import requests
 
@@ -44,7 +44,7 @@ class Vreddit(Service):
         return processed_url
 
     @classmethod
-    def postprocess(cls, response) -> Media:
+    def postprocess(cls, response) -> List[Media]:
         """
         Override of `pyreddit.services.service.Service.postprocess` method.
 
@@ -53,4 +53,4 @@ class Vreddit(Service):
         media: Media = Media(response.url, ContentType.GIF)
         if "Content-length" in response.headers:
             media.size = int(response.headers["Content-length"])
-        return media
+        return [media]

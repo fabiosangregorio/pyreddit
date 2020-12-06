@@ -1,5 +1,5 @@
 """Service for Youtube URLs."""
-from typing import Any, Optional
+from typing import Any, Optional, List
 
 from .. import helpers
 from ..models.content_type import ContentType
@@ -33,19 +33,10 @@ class Youtube(Service):
         return oembed_url if oembed_url else url
 
     @classmethod
-    def get(cls, url: str) -> str:
-        """
-        Override of `pyreddit.services.service.Service.get` method.
-
-        Fake get: simply returns the url given as parameter.
-        """
-        return url
-
-    @classmethod
-    def postprocess(cls, response) -> Media:
+    def postprocess(cls, response) -> List[Media]:
         """
         Override of `pyreddit.services.service.Service.postprocess` method.
 
         Constructs the media object.
         """
-        return Media(response, ContentType.YOUTUBE)
+        return [Media(response, ContentType.YOUTUBE)]

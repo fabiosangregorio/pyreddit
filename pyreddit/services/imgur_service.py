@@ -2,12 +2,10 @@
 import json
 import os
 import re
-from typing import Any
+from typing import Any, List
 from urllib.parse import urlparse
 
-import requests
-from requests import Response
-
+from .. import helpers
 from ..models.content_type import ContentType
 from ..models.media import Media
 from .service import Service
@@ -15,6 +13,12 @@ from .service import Service
 
 class Imgur(Service):
     """Service for Imgur images and videos."""
+
+    request_stream: bool = False
+
+    @classmethod
+    def get_request_headers(cls):
+        return {"Authorization": f"Client-ID {os.getenv('IMGUR_CLIENT_ID')}"}
 
     @classmethod
     def preprocess(cls, url: str, data: Any) -> str:
@@ -32,33 +36,22 @@ class Imgur(Service):
         return f"https://api.imgur.com/3/{api}/{media_hash}"
 
     @classmethod
-    def get(cls, url: str) -> Response:
-        """
-        Override of `pyreddit.services.service.Service.get` method.
-
-        Makes an API call with the client ID as authorization.
-        """
-        return requests.get(
-            url,
-            headers={
-                "Authorization": f"Client-ID {os.getenv('IMGUR_CLIENT_ID')}"  # type: ignore
-            },
-        )
-
-    @classmethod
-    def postprocess(cls, response) -> Media:
+    def postprocess(cls, response) -> List[Media]:
         """
         Override of `pyreddit.services.service.Service.postprocess` method.
 
         Creates the right media object based on the size of provider's media.
         """
-        data: Any = json.loads(response.content)["data"]
-        media: Media
+        data = json.loads(response.content)["data"]
+        medias = []
         if "images" in data:
-            data = data["images"][0]
-        if "image/jpeg" in data["type"] or "image/png" in data["type"]:
-            media = Media(data["link"], ContentType.PHOTO, data["size"])
-        elif "video" or "image/gif" in data["type"]:
-            media = Media(data["mp4"], ContentType.VIDEO, data["mp4_size"])
+            data = data["images"]
+        else:
+            data = [data]
+        for d in data:
+            if helpers.any_str(["image/jpeg", "image/png"], d["type"]):
+                medias.append(Media(d["link"], ContentType.PHOTO, d["size"]))
+            elif helpers.any_str(["video", "image/gif"], d["type"]):
+                medias.append(Media(d["mp4"], ContentType.VIDEO, d["mp4_size"]))
 
-        return media
+        return medias

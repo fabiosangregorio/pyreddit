@@ -1,7 +1,7 @@
 """Service for Gfycat GIFs."""
 import json
 import os
-from typing import Any
+from typing import Any, List
 from urllib.parse import urlparse
 
 import requests
@@ -24,9 +24,14 @@ class Gfycat(Service):
     """
 
     is_authenticated: bool = True
+    request_stream: bool = False
 
     def __init__(self):
         Gfycat.authenticate()
+
+    @classmethod
+    def get_request_headers(cls):
+        return {"Authorization": f"Bearer {cls.access_token}"}
 
     @classmethod
     def preprocess(cls, url: str, data: Any) -> str:
@@ -39,18 +44,7 @@ class Gfycat(Service):
         return f"https://api.gfycat.com/v1/gfycats/{gfyid}"
 
     @classmethod
-    def get(cls, url: str) -> Response:
-        """
-        Override of `pyreddit.services.service.Service.get` method.
-
-        Makes a call to the provider's API.
-        """
-        return requests.get(
-            url, headers={"Authorization": f"Bearer {cls.access_token}"}
-        )
-
-    @classmethod
-    def postprocess(cls, response) -> Media:
+    def postprocess(cls, response) -> List[Media]:
         """
         Override of `pyreddit.services.service.Service.postprocess` method.
 
@@ -68,7 +62,7 @@ class Gfycat(Service):
             media.url = gfy_item["max5mbGif"]
             media.type = ContentType.GIF
             media.size = 5000000
-        return media
+        return [media]
 
     @classmethod
     def authenticate(cls) -> None:

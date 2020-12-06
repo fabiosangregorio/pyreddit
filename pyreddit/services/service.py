@@ -1,6 +1,6 @@
 """Abstract Base static Class for every service."""
 from abc import abstractmethod
-from typing import Any, Optional, Union
+from typing import Any, Optional, Union, List
 
 import requests
 from requests import Response
@@ -60,8 +60,19 @@ class Service:
         This is taken into account only if `is_authenticated` is set to True
     """
 
+    request_stream: bool = True
+    """
+    True if the stream parameter in `request.get` must be set to True
+    """
+
     @classmethod
-    def preprocess(cls, url: str, data: Any) -> str:
+    def get_request_headers(cls) -> Optional[dict]:
+        """
+        Get service-specific headers to be included in media retrieval request.
+        """
+
+    @classmethod
+    def preprocess(cls, url: str, data: Any) -> Union[str, List[str]]:
         """
         Preprocess the media URL coming from Reddit json.
 
@@ -85,7 +96,7 @@ class Service:
         return url
 
     @classmethod
-    def get(cls, url: str) -> Union[Response, str]:
+    def get(cls, url: Union[str, List[str]]) -> Union[Response, str]:
         """
         Get the media information.
 
@@ -107,11 +118,13 @@ class Service:
             Response from the service provider API.
 
         """
-        return requests.get(url, stream=True)
+        return requests.get(
+            url, headers=cls.get_request_headers(), stream=cls.request_stream
+        )
 
     @classmethod
     @abstractmethod
-    def postprocess(cls, response: Union[Response, str]) -> Media:
+    def postprocess(cls, response: Union[Response, str]) -> List[Media]:
         """
         From the service provider API response create the media object.
 
@@ -143,7 +156,7 @@ class Service:
         """
 
     @classmethod
-    def get_media(cls, url: str, data: Any) -> Media:
+    def get_media(cls, url: str, data: Any) -> List[Media]:
         """
         Entrypoint of the class.
 
@@ -175,10 +188,10 @@ class Service:
             The media object accessible from the application.
 
         """
-        processed_url: str = cls.preprocess(url, data)
+        processed_url = cls.preprocess(url, data)
 
-        response: Union[Response, str] = cls.get(processed_url)
         if cls.has_external_request:
+            response = cls.get(processed_url)
             if cls.is_authenticated and response.status_code == 401:  # type: ignore
                 cls.authenticate()
                 response = cls.get(processed_url)
@@ -190,4 +203,6 @@ class Service:
                         "processed_media_url": processed_url,
                     }
                 )
+        else:
+            response = processed_url
         return cls.postprocess(response)

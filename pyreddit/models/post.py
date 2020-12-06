@@ -44,6 +44,11 @@ class Post:
         self.text = text
         self.media = media
 
+    def __get__(self, instance, type):
+        if instance is None:
+            return super(Post, self).__get__(type, type)
+        return super(Post, self).__get__(instance, type)
+
     def get_footer(self) -> str:
         """
         Get footer of the post.

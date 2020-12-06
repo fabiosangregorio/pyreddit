@@ -277,3 +277,7 @@ def chained_get(obj: object, attrs: List[str], default: Any = None) -> Any:
         if obj == default:
             break
     return obj
+
+
+def any_str(any_array: List[str], string):
+    return any(i in string for i in any_array)

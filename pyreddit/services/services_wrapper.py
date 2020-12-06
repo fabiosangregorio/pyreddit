@@ -3,10 +3,12 @@
 import logging
 from typing import Any
 from urllib.parse import urlparse
+from .. import helpers
 
 from ..models.media import Media
 from .generic_service import Generic
 from .gfycat_service import Gfycat
+from .reddit_gallery_service import RedditGallery
 from .imgur_service import Imgur
 from .vreddit_service import Vreddit
 from .youtube_service import Youtube
@@ -22,6 +24,7 @@ class ServicesWrapper:
     An instance for each service class is set at class initialization.
     """
 
+    reddit_gallery: RedditGallery
     gfycat: Gfycat
     vreddit: Vreddit
     imgur: Imgur
@@ -37,6 +40,7 @@ class ServicesWrapper:
             This needs to be called after having loaded the secret in the
             configuration.
         """
+        cls.reddit_gallery = RedditGallery()
         cls.gfycat = Gfycat()
         cls.vreddit = Vreddit()
         cls.imgur = Imgur()
@@ -68,7 +72,11 @@ class ServicesWrapper:
         base_url: str = urlparse(url).netloc
         media: Media
 
-        if "gfycat.com" in base_url:
+        debug_msg = f"services_wrapper - base_url: {base_url}"
+
+        if helpers.get(data, "is_gallery") is True:
+            media = cls.reddit_gallery.get_media(url, data)
+        elif "gfycat.com" in base_url:
             media = cls.gfycat.get_media(url, data)
         elif "v.redd.it" in base_url:
             media = cls.vreddit.get_media(url, data)
@@ -77,10 +85,9 @@ class ServicesWrapper:
         elif "youtube.com" in base_url or "youtu.be" in base_url:
             media = cls.youtube.get_media(url, data)
         else:
-            logging.info(
-                "services_wrapper: no suitable service found. base_url: %s",
-                base_url,
-            )
+            debug_msg += " - no suitable service found"
             media = cls.generic.get_media(url, data)
+
+        logging.info(debug_msg)
 
         return media

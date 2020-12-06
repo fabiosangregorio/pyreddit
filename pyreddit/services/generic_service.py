@@ -1,5 +1,5 @@
 """Service for when a suitable specific service is not found."""
-from typing import Optional
+from typing import Optional, List
 
 from ..models.content_type import ContentType
 from ..models.media import Media
@@ -10,17 +10,14 @@ class Generic(Service):
     """Service for when a suitable specific service is not found."""
 
     @classmethod
-    def postprocess(cls, response) -> Media:
+    def postprocess(cls, response) -> List[Media]:
         """Override of `pyreddit.services.service.Service.postprocess` method."""
         file_size: Optional[int] = None
-        media_type: ContentType = ContentType.PHOTO
-
-        if ".gif" in response.url:
-            media_type = ContentType.GIF
-        elif ".mp4" in response.url:
-            media_type = ContentType.VIDEO
+        media_type: ContentType = ContentType.from_str(
+            response.url, default=ContentType.PHOTO
+        )
 
         if "Content-length" in response.headers:
             file_size = int(response.headers["Content-length"])
 
-        return Media(response.url, media_type, file_size)
+        return [Media(response.url, media_type, file_size)]
