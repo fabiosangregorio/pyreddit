@@ -11,6 +11,7 @@ from typing import Any, Optional
 
 import requests
 from dotenv import load_dotenv
+from .config import config
 
 from . import helpers
 from .exceptions import (
@@ -58,6 +59,7 @@ def _get_json(post_url: str) -> Any:
         response = requests.get(
             f"{post_url}.json",
             headers={"User-agent": os.getenv("REDDIT_USER_AGENT")},
+            timeout=config.REQUESTS_TIMEOUT,
         )
         json = response.json()
         # some subreddits have the json data wrapped in brackets, some do not

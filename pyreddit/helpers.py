@@ -205,6 +205,7 @@ def get_urls_from_text(text: str) -> List[str]:
                     word,
                     headers={"User-agent": os.getenv("REDDIT_USER_AGENT")},  # type: ignore
                     allow_redirects=False,
+                    timeout=config.REQUESTS_TIMEOUT,
                 )
                 start = resp.text.find("https://")
                 url = resp.text[start : resp.text.find('"', start)]

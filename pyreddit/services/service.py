@@ -1,7 +1,7 @@
 """Abstract Base static Class for every service."""
 from abc import abstractmethod
 from typing import Any, Optional, Union
-
+from ..config import config
 import requests
 from requests import Response
 
@@ -107,7 +107,7 @@ class Service:
             Response from the service provider API.
 
         """
-        return requests.get(url, stream=True)
+        return requests.get(url, stream=True, timeout=config.REQUESTS_TIMEOUT)
 
     @classmethod
     @abstractmethod

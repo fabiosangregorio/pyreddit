@@ -11,6 +11,7 @@ from ..exceptions import AuthenticationError
 from ..models.content_type import ContentType
 from ..models.media import Media
 from .service import Service
+from ..config import config
 
 
 class Gfycat(Service):
@@ -46,7 +47,9 @@ class Gfycat(Service):
         Makes a call to the provider's API.
         """
         return requests.get(
-            url, headers={"Authorization": f"Bearer {cls.access_token}"}
+            url,
+            headers={"Authorization": f"Bearer {cls.access_token}"},
+            timeout=config.REQUESTS_TIMEOUT,
         )
 
     @classmethod
